@@ -8,22 +8,17 @@ import base64
 
 import vobject
 
-# Adapt here to point to your ldap connection strings
+# Adapt here to point to your ldap directory
 ldapCnx = ldap.initialize("ldap://localhost:10389")
 
-# Put here a bind dn which has
-# rw access to your directory
+# Put here a binddn which has rw access to your directory
 ldapCnx.simple_bind_s("cn=user_admin,dc=example,dc=com","password")
 
-# Edit here to indicate where to store
-# the newly created users
+# Edit here to indicate where to store the newly created users
 ldapBaseDn = "dc=accounts,dc=example,dc=com"
-
 
 vcfFile = open(sys.argv[1])
 vc =  vobject.readComponents(vcfFile)
-
-
 
 while True:
     try:
@@ -31,13 +26,11 @@ while True:
 
         ldapItem = [('objectClass',['top','person',
                         'organizationalPerson','inetOrgPerson'])]
-
         name = ""
         jpegPhoto = ""
         mail = ""
         cn = ""
         telNumber = ""
-
 
         # Iterating on each attributes
         for attribElem in cur.getChildren():
